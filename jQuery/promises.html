@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>JSON</title>
+    <script type="text/javascript"
+    src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    $(function () {
+        
+        var makeRequest = function(){
+            var req = new XMLHttpRequest();
+            
+            return new Promise(function(resolve, reject){
+                req.onreadystatechange = function(){
+                    if(req.readyState != 4) return;
+                    if(req.status >= 200 && req.status < 300){
+                        resolve(req);
+                    }else{
+                        reject({
+                            status: req.status,
+                            statusText: req.statusText
+                        });
+                    }
+                };
+                req.open("GET", "https://api.github.com/users/drolewski/repos", true);
+                req.send();
+            });
+        };
+        $('button').click(function () {
+            makeRequest()
+                .then(function (posts){
+                    $('#content').append(posts.responseText);
+                })
+                .catch(function(error){
+                    $('#content').append(error.responseText);
+                })
+        });        
+    });
+ </script>
+</head>
+<body>
+    <button id="#get-data">Guitars</button>
+    <div id="content"></div>
+</body>
+</html>
