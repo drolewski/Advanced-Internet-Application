@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>jQuery</title>
+    <script type="text/javascript"
+    src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        function edit(){
+            var tdRow = $(this);
+            var txt = tdRow.text();
+            var input = "<input type=\"text\" id=\"edit\" value=\""+ txt +"\"/>"
+            tdRow.html(input);
+            $('#edit').blur(function() {
+                tdRow.text($(this).val());
+                tdRow.one('click', edit);
+            }).focus();
+            $('button').trigger('asdf');
+        }
+        $(function() {
+            $('td').one('click', edit);
+            $('button').bind('asdf', function () { alert('The cake is a lie!'); });
+            // $('*').unbind();
+        });      
+    </script>
+</head>
+<body>
+    <table>
+        <tr><td>One</td></tr>
+        <tr><td>Two</td></tr>
+        <tr><td>Three</td></tr>
+        <tr><td>...</td></tr>
+    </table>       
+    <button>Hello</button>
+</body>
+</html>
