@@ -11,9 +11,32 @@ src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
  <script type="text/javascript">
     $(function () {
         $('a').click(function () {
-            $('#content').load('AJAX' + $(this).attr('href'));
-            return false;
+            $('#content').animate({height: '0px', width: '0px'}, () => {
+                $('#content').load('AJAX' + $(this).attr('href'), () => {
+                    $('#content').animate({ height: '500px', width: '500px'});
+                });
+            });
+        return false; // it blocks return of all content from the subpage
         });
+
+        // $('a').click(function () {
+        //     var thisA = $(this);
+        //     $('#content').fadeOut('medium', function () {
+        //         $('#content').load('AJAX' + thisA.attr('href'), function () { 
+        //             $('#content').fadeIn();        
+
+        //             // now it works great, we cant use this inside of function, because it wont refere to the selector 'a', 
+        //             // it will call the celector of element which call the function in this case it will be '#content'
+        //         });    
+        //     });
+        //     /*
+        //     this operation is non blocking :)s
+        //     $('#content').fadeOut();
+        //     $('#content').load('AJAX' + $(this).attr('href'))
+        //     $('#content').fadeIn(); 
+        //     */
+        //     return false;
+        // });
     });
  </script>
 </head>
