@@ -48,9 +48,7 @@ class Books extends Component{
                 return 0;
             }
             const sortedData = this.state.display.sort(compare)
-            const sortedBooks = this.state.books.sort(compare)
             this.setState({
-                books: sortedBooks,
                 display: sortedData,
                 nameAsc: !this.state.nameAsc
             })
@@ -61,9 +59,7 @@ class Books extends Component{
                 return 0;
             }
             const sortedData = this.state.display.sort(compare)
-            const sortedBooks = this.state.books.sort(compare)
             this.setState({
-                books: sortedBooks,
                 display: sortedData,
                 nameAsc: !this.state.nameAsc
             })
@@ -73,17 +69,13 @@ class Books extends Component{
     handleSortByRating(){
         if(!this.state.ratingAsc){
             const sortedData = this.state.display.sort((a,b) => a.rating - b.rating)
-            const sortedBooks = this.state.books.sort((a,b) => a.rating - b.rating)
             this.setState({
-                books: sortedBooks,
                 display: sortedData,
                 ratingAsc: !this.state.ratingAsc
             })
         }else{
             const sortedData = this.state.display.sort((a,b) => b.rating - a.rating)
-            const sortedBooks = this.state.books.sort((a,b) => b.rating - a.rating)
             this.setState({
-                books: sortedBooks,
                 display: sortedData,
                 ratingAsc: !this.state.ratingAsc
             })
@@ -121,8 +113,9 @@ class Books extends Component{
         newBook["rating"] = rating
 
         const displayList = this.state.display
-        displayList.push(newBook)        
+        displayList.push(newBook)  
         this.setState({
+            books: displayList,
             display: displayList
         })
         console.log(this.state.display)
