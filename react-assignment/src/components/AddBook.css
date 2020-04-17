@@ -16,6 +16,6 @@
     display: flex;
     align-items: center;
     font-size: 20px;
-    flex-flow: center;
+    justify-content: flex-start;
 }
 

@@ -135,16 +135,18 @@ class Books extends Component{
         return(
             <div class="main">
                 <div class="nav">
-                    <div>
+                    <div class="buttons">
                         <button onClick={this.handleSortByName}>Sort By Name</button>
                         <button onClick={this.handleSortByRating}>Sort By Rating</button>
                     </div>
-                    <div>
+                    <div class="buttons">
                         <input id="search" type="text" name="search" value={this.search} placeholder="Search" onChange={this.handleSearch}/>
                         <AddBook add={this.addBook}/>
                     </div>
                 </div>
+                <div class="data">
                     {data}
+                </div>
             </div>
             
         )
