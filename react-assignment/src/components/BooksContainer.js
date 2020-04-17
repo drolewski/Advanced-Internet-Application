@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import booksData from '../booksData.json'
 import BookElement from './BookElement'
 import AddBook from './AddBook'
+import './Books.css'
 
 class Books extends Component{
     constructor(){
@@ -132,14 +133,20 @@ class Books extends Component{
             onDelete={this.handleDelete}
             update={this.handleUpdate}/>)
         return(
-            
-            <div>
-                <AddBook add={this.addBook}/>
-                <input type="text" name="search" value={this.search} placeholder="Search" onChange={this.handleSearch}/>
-                <button onClick={this.handleSortByName}>Sort By Name</button>
-                <button onClick={this.handleSortByRating}>Sort By Rating</button>
-                {data}
+            <div class="main">
+                <div class="nav">
+                    <div>
+                        <button onClick={this.handleSortByName}>Sort By Name</button>
+                        <button onClick={this.handleSortByRating}>Sort By Rating</button>
+                    </div>
+                    <div>
+                        <input id="search" type="text" name="search" value={this.search} placeholder="Search" onChange={this.handleSearch}/>
+                        <AddBook add={this.addBook}/>
+                    </div>
+                </div>
+                    {data}
             </div>
+            
         )
     }
 }
