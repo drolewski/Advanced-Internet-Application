@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import booksData from '../booksData.json'
 import BookElement from './BookElement'
+import AddBook from './AddBook'
 
 class Books extends Component{
     constructor(){
@@ -17,6 +18,7 @@ class Books extends Component{
         this.handleSortByName = this.handleSortByName.bind(this)
         this.handleSortByRating = this.handleSortByRating.bind(this)
         this.handleUpdate = this.handleUpdate.bind(this)
+        this.addBook = this.addBook.bind(this)
     }
     handleDelete(id){
         const filtered = this.state.books.filter(item => item.id !== id)
@@ -103,6 +105,29 @@ class Books extends Component{
             display: updated
         })
     }
+    addBook(title, description, image, rating){
+        const bookList = this.state.books
+        var maxId = 0
+        for(let i = 0; i < bookList.length; i++){
+            if(maxId < bookList[i].id){
+                maxId = bookList[i].id
+            }
+        }
+        var newBook = {}
+        newBook["id"] = maxId + 1
+        newBook["name"] = title
+        newBook["description"] = description
+        newBook["image"] = image
+        newBook["rating"] = rating
+
+        const displayList = this.state.display
+        displayList.push(newBook)        
+        this.setState({
+            display: displayList
+        })
+        console.log(this.state.display)
+        
+    }
     render() {
         const data = this.state.display.map(item => <BookElement 
             key={item.id} 
@@ -116,6 +141,7 @@ class Books extends Component{
         return(
             
             <div>
+                <AddBook add={this.addBook}/>
                 <input type="text" name="search" value={this.search} placeholder="Search" onChange={this.handleSearch}/>
                 <button onClick={this.handleSortByName}>Sort By Name</button>
                 <button onClick={this.handleSortByRating}>Sort By Rating</button>
