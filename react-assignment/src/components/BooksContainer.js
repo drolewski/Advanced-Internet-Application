@@ -9,11 +9,14 @@ class Books extends Component{
             books: booksData,
             search: "",
             display: booksData,
-            nameAsc: false
+            nameAsc: false,
+            ratingAsc: false
         }
         this.handleDelete = this.handleDelete.bind(this)
         this.handleSearch = this.handleSearch.bind(this)
-        this.handleSort = this.handleSort.bind(this)
+        this.handleSortByName = this.handleSortByName.bind(this)
+        this.handleSortByRating = this.handleSortByRating.bind(this)
+        this.handleUpdate = this.handleUpdate.bind(this)
     }
     handleDelete(id){
         const filtered = this.state.books.filter(item => item.id !== id)
@@ -35,7 +38,7 @@ class Books extends Component{
             display: display
         })
     }
-    handleSort(){
+    handleSortByName(){
         if(!this.state.nameAsc){
             function compare(a, b){
                 if (a.name > b.name) return 1;
@@ -59,13 +62,46 @@ class Books extends Component{
             const sortedBooks = this.state.books.sort(compare)
             this.setState({
                 books: sortedBooks,
-                display: sortedData
-            })
-            this.setState({
+                display: sortedData,
                 nameAsc: !this.state.nameAsc
             })
         }
         
+    }
+    handleSortByRating(){
+        if(!this.state.ratingAsc){
+            const sortedData = this.state.display.sort((a,b) => a.rating - b.rating)
+            const sortedBooks = this.state.books.sort((a,b) => a.rating - b.rating)
+            this.setState({
+                books: sortedBooks,
+                display: sortedData,
+                ratingAsc: !this.state.ratingAsc
+            })
+        }else{
+            const sortedData = this.state.display.sort((a,b) => b.rating - a.rating)
+            const sortedBooks = this.state.books.sort((a,b) => b.rating - a.rating)
+            this.setState({
+                books: sortedBooks,
+                display: sortedData,
+                ratingAsc: !this.state.ratingAsc
+            })
+        }
+    }
+    handleUpdate(element){
+        const updated = this.state.display.filter(item =>{
+            if(item.id === element.id){
+                item.name = element.title
+                item.image = element.image
+                item.rating = element.rating
+                item.description = element.description
+            }
+            return item
+        })
+        console.log(updated);
+        this.setState({
+            books: updated,
+            display: updated
+        })
     }
     render() {
         const data = this.state.display.map(item => <BookElement 
@@ -75,12 +111,14 @@ class Books extends Component{
             description={item.description}
             image={item.image}
             rating={item.rating}
-            onDelete={this.handleDelete}/>)
+            onDelete={this.handleDelete}
+            update={this.handleUpdate}/>)
         return(
             
             <div>
                 <input type="text" name="search" value={this.search} placeholder="Search" onChange={this.handleSearch}/>
-                <button onClick={this.handleSort}>Sort By Name</button>
+                <button onClick={this.handleSortByName}>Sort By Name</button>
+                <button onClick={this.handleSortByRating}>Sort By Rating</button>
                 {data}
             </div>
         )

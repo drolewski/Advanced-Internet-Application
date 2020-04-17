@@ -39,11 +39,11 @@ class BookElement extends Component{
         console.log(this.state.isEdit)
     }
     render(){
-        const rating = this.state.rating === null ? "Give vote" : this.state.rating
+        const rating = this.state.rating === 0 ? "Give vote" : this.state.rating
 
         return(
             this.state.isEdit ?
-            <form>
+            <div>
                 <input type="text" name="title" value={this.state.title} onChange={this.handleChange}></input>
                 <img src={this.state.image} style={imageStyle}/>
                 <input type="text" name="image" placeholder="Insert New Photo URL" onChange={this.handleChange}></input>
@@ -60,15 +60,15 @@ class BookElement extends Component{
                     <option value="4">4</option>
                     <option value="5">5</option>
                 </select>
-                <button onClick={this.handleEdit}>Save</button>
-            </form> 
+                <button onClick={() => {this.props.update(this.state); this.handleEdit()}}>Save</button>
+            </div> 
             :
             <div>
                 <h1>{this.state.title}</h1>
                 <img src={this.state.image} style={imageStyle}/>
                 <p>Description: {this.state.description}</p>
                 <p>Rating: {rating}</p>
-                <select 
+                <select disabled
                     value={rating}
                     onChange={this.handleChange}
                     name="rating">
