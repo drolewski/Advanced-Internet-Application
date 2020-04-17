@@ -18,7 +18,7 @@ class Books extends Component{
         const data = this.state.books.map(item => <BookElement 
             key={item.id} 
             id={item.id}
-            title={item.title}
+            title={item.name}
             description={item.description}
             image={item.image}
             rating={item.rating}
