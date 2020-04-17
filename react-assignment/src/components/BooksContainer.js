@@ -8,10 +8,12 @@ class Books extends Component{
         this.state = {
             books: booksData,
             search: "",
-            display: booksData
+            display: booksData,
+            nameAsc: false
         }
         this.handleDelete = this.handleDelete.bind(this)
         this.handleSearch = this.handleSearch.bind(this)
+        this.handleSort = this.handleSort.bind(this)
     }
     handleDelete(id){
         const filtered = this.state.books.filter(item => item.id !== id)
@@ -33,6 +35,38 @@ class Books extends Component{
             display: display
         })
     }
+    handleSort(){
+        if(!this.state.nameAsc){
+            function compare(a, b){
+                if (a.name > b.name) return 1;
+                if (b.name > a.name) return -1;
+                return 0;
+            }
+            const sortedData = this.state.display.sort(compare)
+            const sortedBooks = this.state.books.sort(compare)
+            this.setState({
+                books: sortedBooks,
+                display: sortedData,
+                nameAsc: !this.state.nameAsc
+            })
+        }else{
+            function compare(a, b){
+                if (a.name > b.name) return -1;
+                if (b.name > a.name) return 1;
+                return 0;
+            }
+            const sortedData = this.state.display.sort(compare)
+            const sortedBooks = this.state.books.sort(compare)
+            this.setState({
+                books: sortedBooks,
+                display: sortedData
+            })
+            this.setState({
+                nameAsc: !this.state.nameAsc
+            })
+        }
+        
+    }
     render() {
         const data = this.state.display.map(item => <BookElement 
             key={item.id} 
@@ -46,6 +80,7 @@ class Books extends Component{
             
             <div>
                 <input type="text" name="search" value={this.search} placeholder="Search" onChange={this.handleSearch}/>
+                <button onClick={this.handleSort}>Sort By Name</button>
                 {data}
             </div>
         )
