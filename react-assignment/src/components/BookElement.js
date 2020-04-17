@@ -19,7 +19,6 @@ class BookElement extends Component{
         this.handleEdit = this.handleEdit.bind(this)
     }
     componentDidMount(){
-        console.log("im here")
         this.setState({
             id: this.props.id,
             title: this.props.title,
