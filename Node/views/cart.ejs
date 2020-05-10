@@ -1,0 +1,73 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+<head>
+    <script src="script.js"></script>
+</head>
+
+<body class="bg-light d-flex flex-column h-100">
+    <nav class="navbar navbar-expand navbar-dark bg-dark">
+        <a class="navbar-brand" href="/shop">Book Store</a>
+
+        <div class="collapse navbar-collapse justify-content-md-right">
+            <ul class="navbar-nav ml-auto ">
+                <li class="nav-item ">
+                    <a class="nav-link " href="/cart">Cart</a>
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+    <main role="main">
+
+
+        <div class="container ">
+            Your shopping cart
+        </div>
+
+        <div class="container ">
+            <table class="table">
+
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Author</th>
+                        <th scope="col">Number of Pages</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Price of Row</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%for(var i=0;i<books.length;i++){%>
+                        <tr>
+                            <td>
+                                <%= books[i].title%>
+                            </td>
+                            <td>
+                                <%= books[i].author%>
+                            </td>
+                            <td>
+                                <%= books[i].pageNum%>
+                            </td>
+                            <td>
+                                <%= books[i].count%>
+                            </td>
+                            <td>
+                                <%= books[i].price%>
+                            </td>
+                            <td>
+                                <%= books[i].price * books[i].count%>
+                            </td>
+                            <td><button type="submit" class="btn-dark" onclick="deleteElement('<%=JSON.stringify(books[i].id)%>')">Delete from cart</button></td>
+                        </tr>
+                        <%}%>
+                        <tr><td>Total Price: <%= totalPrice %></td></tr>
+                </tbody>
+            </table>
+
+            <button class="btn-success" type="submit" onclick="confirmCart('<%=JSON.stringify(totalPrice)%>')">Confirm</button>
+            <button class="btn-danger" type="submit" onclick="cancelCart()">Cancel transaction</button>
+
+    </main>
+</body>
