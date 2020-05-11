@@ -1,0 +1,25 @@
+﻿@* Layout page does not show and give Forbidden response*@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@Page.Title</title> 
+    @* set the page title *@
+    <link rel="stylesheet" type="text/css" href="~/Content/Style.css">
+    <style>
+        body {
+            background-color: #9B2B32;
+        }
+    </style>
+</head>
+<body>
+    <div class="links">
+        <a href="Mark3.cshtml">Mark III</a>
+        <a href="Mark6.cshtml">Mark VI</a>
+    </div>
+    <div class="armour"></div>
+    <div class="plate">@RenderBody()</div>
+    <div class="armour"></div>
+    <div class="info">@RenderSection("Info")</div>
+</body>
