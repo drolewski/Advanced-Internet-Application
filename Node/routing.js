@@ -28,33 +28,45 @@ router.post('/add/:bookid', (req, res) =>{
     if(!req.session.cart){
         req.session.cart = []
     }
-    let sql = `SELECT * FROM express.books WHERE id = ${req.params.bookid}`
-    let query = connection.query(sql, (err, result) => {
+    let sql = `SELECT * FROM express.books WHERE id = ?`
+    let query = connection.query(sql, [req.params.bookid], (err, result) => {
         if (err) throw err
 
-        if(result.length <= 0 || result.quantity <= 0) {
+        if(result.length <= 0 || result[0].quantity <= 0) {
             res.redirect('/shop', 204)
         } else{
+            let redir = false;
             let record = result[0]
             let inCart = false;
             for(var i = 0; i < req.session.cart.length; i++){
                 if(req.session.cart[i].title === record.Title) {
-                    req.session.cart[i].count++
-                    inCart = true;
+                    if(result[0].quantity <= req.session.cart[i].count){
+                        redir = true;       
+                    }
+                    if(!redir){
+                        req.session.cart[i].count++
+                        inCart = true;
+                    }
                 }
             }
-            if(!inCart){
-                let book = {
-                    id: record.id,
-                    title: record.Title,
-                    author: record.Author,
-                    pageNum: record.PagesNum,
-                    price: record.price,
-                    count: 1
+            if(!redir){
+                if(!inCart){
+                    let book = {
+                        id: record.id,
+                        title: record.Title,
+                        author: record.Author,
+                        pageNum: record.PagesNum,
+                        price: record.price,
+                        count: 1
+                    }
+                    req.session.cart.push(book)
                 }
-                req.session.cart.push(book)
             }
-            res.redirect('/shop', 200)
+            if(redir){
+                res.redirect('/shop', 204) 
+            }else{
+                res.redirect('/shop', 200)
+            }
         }
     })
 })
@@ -73,8 +85,8 @@ router.get('/cart', (req, res) => {
 router.post('/cart/buy', (req, res) => {
     let sql
     req.session.cart.forEach((item) => {
-        sql = `UPDATE express.books SET quantity = (quantity - ${item.count}) where id = ${item.id}`
-        let query = connection.query(sql, (err, result) => {
+        sql = `UPDATE express.books SET quantity = (quantity - ?) where id = ?`
+        let query = connection.query(sql, [item.count, item.id], (err, result) => {
             if (err) throw err
         })
     })
